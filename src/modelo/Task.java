@@ -2,11 +2,11 @@ package modelo;
 //import java.time.LocalDateTime; 	// importação do API de data e hora que usarei futuramente
 
 public class Task {
-	private int id; 				// identificador da tarefa
-	private String title; 			// título da tarefa
-	private String description; 	// descrição opcional
-	private boolean completed; 		// indicador se a tarefa foi concluída
-	// private LocalDateTime createdAt;
+	private final int id; 				// identificador imutável da tarefa
+	private String title; 				// título da tarefa
+	private String description; 		// descrição opcional
+	private boolean completed; 			// indicador se a tarefa foi concluída
+	private LocalDateTime createdAt; 	// data e hora da criação
 	
 	public Task(int id, String title, String description) throws ArgumentoInvalidoException {
 		if (title == null) {
@@ -53,5 +53,9 @@ public class Task {
 	
 	public boolean isCompleted() {
 		return this.completed;
+	}
+	
+	public LocalDateTime getCreatedAt() {
+		
 	}
 }
