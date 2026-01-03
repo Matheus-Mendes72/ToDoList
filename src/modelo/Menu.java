@@ -1,5 +1,6 @@
 package modelo;
 import java.util.Scanner;
+import java.util.List;
 
 public class Menu {
 
@@ -21,10 +22,12 @@ public class Menu {
             System.out.println("=== To Do List ===");
             System.out.println("1 - Criar uma tarefa");
             System.out.println("2 - Criar tarefa com prioridade");
-            System.out.println("3 - Listar tarefas");
-            System.out.println("4 - Completar tarefa");
-            System.out.println("5 - Remover Tarefa");
+            System.out.println("3 - Listar tarefas pendentes");
+            System.out.println("4 - Listar tarefas conclídas");
+            System.out.println("5 - Completar tarefa");
+            System.out.println("6 - Remover Tarefa");
             System.out.println("0 - Sair");
+
 
             String UserChoice = leitor.nextLine();
 
@@ -32,9 +35,10 @@ public class Menu {
                 switch (UserChoice) {
                     case "1": CreateTask(); break;
                     case "2": CreatePriorityTask(); break;
-                    case "3": List(); break;
-                    case "4": Complete(); break;
-                    case "5": Remove(); break;
+                    case "3": ListPending(); break;
+                    case "4": ListCompleted(); break;
+                    case "5": Complete(); break;
+                    case "6": Remove(); break;
                     case "0": return;
                     default: System.out.println("Opção Inválida");
                 }
@@ -86,11 +90,20 @@ public class Menu {
     	System.out.println("Tarefa com prioridade criada!"); 
     }
     
-    public void List() { 
-    	System.out.println("--- LISTA DE TAREFAS ---"); 
-    	for (Task t : service.listTasks()) { 
+    public void ListPending() { 
+    	System.out.println("--- TAREFAS PENDENTES ---"); 
+    	List<Task> tasks = service.listPendingTasks();
+    	for (Task t : service.listPendingTasks()) { 
     		System.out.println(t); 
     	} 
+    }
+    
+    public void ListCompleted() {
+    	System.out.println("--- TAREFAS CONCLUÍDAS ---");
+    	List<Task> tasks = service.listCompletedTasks();
+    	for (Task t : service.listCompletedTasks()) {
+    		System.out.println(t);
+    	}
     }
     
     public void Complete() { 

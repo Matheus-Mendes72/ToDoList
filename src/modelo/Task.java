@@ -8,18 +8,18 @@ public class Task {
 
     private String title;
     private String description;
-    private boolean completed;
+    private Status status;
 
     public Task(int id, String title, String description) {
         this.id = id;
         setTitle(title);
         this.description = description;
-        this.completed = false; // toda tarefa começa pendente
+        this.status = Status.PENDENTE; // toda tarefa começa pendente
     }
 
     // Método de comportamento da entidade
     public void markAsCompleted() {
-        this.completed = true;
+        this.status = Status.CONCLUIDA;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Task {
         // Representação textual da tarefa (usada na listagem)
         return "ID[" + getId() + "] | Título: " + getTitle() +
                " | Descrição: " + getDescription() +
-               " | Status: (Completa: " + isCompleted() + ")";
+               " | Status: (Completa: " + getStatus() + ")";
     }
 
     public void setTitle(String title) {
@@ -41,12 +41,12 @@ public class Task {
         this.description = description;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public boolean setCompleted() {
+        return status == Status.CONCLUIDA;
     }
 
     public int getId() { return this.id; }
     public String getTitle() { return this.title; }
     public String getDescription() { return this.description; }
-    public boolean isCompleted() { return this.completed; }
+    public Status getStatus() { return this.status; }
 }

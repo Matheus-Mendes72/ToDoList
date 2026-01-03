@@ -11,3 +11,9 @@ class NotFoundException extends RuntimeException {
 		super(mensagem);
 	}
 }
+
+class NoTasksConpletedException extends RuntimeException {
+	NoTasksConpletedException(String mensagem) {
+		super(mensagem);
+	}
+}

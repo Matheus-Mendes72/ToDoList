@@ -1,4 +1,5 @@
 package modelo;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskServiceImplementacao implements TaskService {
@@ -33,8 +34,34 @@ public class TaskServiceImplementacao implements TaskService {
     }
 
     @Override
-    public List<Task> listTasks() {
-        return repository.getAll();
+    public List<Task> listPendingTasks() {
+        List<Task> pending = new ArrayList<>();
+        
+        for (Task task : repository.getAll()) {
+        	if (task.getStatus() == Status.PENDENTE) {
+        		pending.add(task);
+        	}
+        }
+        if (pending.isEmpty()) {
+    		throw new NoTasksConpletedException("Nenhuma tarefa pendente!");
+    	}
+        
+        return pending;
+    }
+    
+    @Override
+    public List<Task> listCompletedTasks() {
+    	List<Task> completed = new ArrayList<>();
+    	
+    	for (Task task : repository.getAll()) {
+    		if (task.getStatus() == Status.CONCLUIDA) {
+    			completed.add(task);
+    		}
+    	}
+    	if (completed.isEmpty()) {
+    		throw new NoTasksConpletedException("Nenhuma tarefa foi concluída!");
+    	}
+    	return completed;
     }
 
     @Override

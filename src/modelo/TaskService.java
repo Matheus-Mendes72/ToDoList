@@ -7,7 +7,9 @@ public interface TaskService {
 
     PriorityTask createPriorityTask(int id, String title, String description, Priority priority);
 
-    List<Task> listTasks();
+    List<Task> listPendingTasks();
+    
+    List<Task> listCompletedTasks();
 
     Task findTask(int id);
 
