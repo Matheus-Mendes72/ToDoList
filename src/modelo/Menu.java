@@ -23,7 +23,7 @@ public class Menu {
             System.out.println("1 - Criar uma tarefa");
             System.out.println("2 - Criar tarefa com prioridade");
             System.out.println("3 - Listar tarefas pendentes");
-            System.out.println("4 - Listar tarefas conclídas");
+            System.out.println("4 - Listar tarefas concluídas");
             System.out.println("5 - Completar tarefa");
             System.out.println("6 - Remover Tarefa");
             System.out.println("0 - Sair");
@@ -42,7 +42,7 @@ public class Menu {
                     case "0": return;
                     default: System.out.println("Opção Inválida");
                 }
-            } catch (NotFoundException | ArgumentoInvalidoException e) {
+            } catch (NotFoundException | ArgumentoInvalidoException | NoTasksConpletedException e) {
                 // Tratamento centralizado de erros
                 System.out.println("Erro: " + e.getMessage());
             }
@@ -86,7 +86,10 @@ public class Menu {
     		return; 
     	}
     	
-    	service.createPriorityTask(nextID++, title, description, pr); 
+    	System.out.print("Defina uma senha para a tarefa: ");
+    	String senha = leitor.nextLine();
+    	
+    	service.createPriorityTask(nextID++, title, description, pr, senha); 
     	System.out.println("Tarefa com prioridade criada!"); 
     }
     
@@ -109,7 +112,16 @@ public class Menu {
     public void Complete() { 
     	System.out.print("ID da tarefa: "); 
     	int id = Integer.parseInt(leitor.nextLine()); 
-    	service.completeTask(id); 
+    	
+    	 Task task = service.findTask(id);
+   
+    	 String senha = null;
+    	 if (task.requiresPassword()) {
+    		 System.out.print("Senha: ");
+    	     senha = leitor.nextLine();
+    	 }
+    	
+    	service.completeTask(id, senha); 
     	System.out.println("Tarefa Completada!"); 
     }
     

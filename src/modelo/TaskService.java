@@ -5,7 +5,7 @@ public interface TaskService {
     // Define as regras de aplicação
     Task createTask(int id, String title, String description);
 
-    PriorityTask createPriorityTask(int id, String title, String description, Priority priority);
+    PriorityTask createPriorityTask(int id, String title, String description, Priority priority, String senha);
 
     List<Task> listPendingTasks();
     
@@ -13,7 +13,7 @@ public interface TaskService {
 
     Task findTask(int id);
 
-    void completeTask(int id);
+    void completeTask(int id, String senha);
 
     void deleteTask(int id);
 }

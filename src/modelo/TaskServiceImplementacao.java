@@ -10,24 +10,29 @@ public class TaskServiceImplementacao implements TaskService {
     public TaskServiceImplementacao(TaskRepository repository) {
         this.repository = repository;
     }
-
-    @Override
-    public Task createTask(int id, String title, String description) {
+    
+    public void validarTitulo(String title) {
         if (title == null || title == "") {
             throw new ArgumentoInvalidoException("Título é obrigatório");
         }
+    }
+
+    @Override
+    public Task createTask(int id, String title, String description) {
+        validarTitulo(title);
+        
         Task novaTask = new Task(id, title, description);
         repository.add(novaTask);
         return novaTask;
     }
 
     @Override
-    public PriorityTask createPriorityTask(int id, String title, String description, Priority priority) {
-        if (title == null || title == "") {
-            throw new ArgumentoInvalidoException("Título é obrigatório");
-        }
+    public PriorityTask createPriorityTask(int id, String title, String description, Priority priority, String senha) {
+        validarTitulo(title);
+        
+        
         PriorityTask novaPriorityTask =
-            new PriorityTask(id, title, description, priority);
+            new PriorityTask(id, title, description, priority, senha);
 
         repository.add(novaPriorityTask);
         return novaPriorityTask;
@@ -70,13 +75,24 @@ public class TaskServiceImplementacao implements TaskService {
     }
 
     @Override
-    public void completeTask(int id) {
+    public void completeTask(int id, String senha) {
         Task task = repository.getById(id);
-        task.markAsCompleted();
+        
+        if (task.getStatus() == Status.CONCLUIDA) {
+        	throw new ArgumentoInvalidoException("Tarefa já concluída");
+        }
+        
+        task.complete(senha);
     }
 
     @Override
     public void deleteTask(int id) {
-        repository.remove(id);
+    	Task task = repository.getById(id);
+    	
+    	if (!task.podeSerRemovida()) {
+    		throw new ArgumentoInvalidoException("Essa tarefa não pode ser removida");
+    	}
+    	
+    	repository.remove(id);
     }
 }

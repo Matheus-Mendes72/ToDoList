@@ -1,17 +1,34 @@
 package modelo;
 
-public class PriorityTask extends Task {
+public class PriorityTask extends Task  {
 
     private Priority priority;
+    private String senha;
 
-    public PriorityTask(int id, String title, String description, Priority priority) {
+    public PriorityTask(int id, String title, String description, Priority priority, String senha) {
         // Chama o construtor da classe pai (herança)
         super(id, title, description);
         setPriority(priority);
+        this.senha = senha;
     }
 
     public Priority getPriority() {
         return this.priority;
+    }
+    
+    public boolean podeSerRemovida() {
+    	return priority == Priority.BAIXA;
+    }
+    
+    public boolean requiresPassword() {
+    	return true;
+    }
+    
+    public void complete(String senha) {
+    	if (!validarSenha(senha)) {
+    		throw new ArgumentoInvalidoException("Senha inválida");
+    	}
+    	markAsCompleted();
     }
 
     public void setPriority(Priority priority) {
@@ -21,6 +38,17 @@ public class PriorityTask extends Task {
             );
         }
         this.priority = priority;
+    }
+    
+    public void setSenha(String senha) {
+    	if (senha == null || senha == "") {
+    		throw new ArgumentoInvalidoException("Senha inválida");
+    	}
+    	this.senha = senha;
+    }
+    
+    public boolean validarSenha(String senhaInformada) {
+    	return this.senha.equals(senhaInformada);
     }
 
     @Override

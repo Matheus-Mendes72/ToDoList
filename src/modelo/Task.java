@@ -1,5 +1,4 @@
 package modelo;
-//import java.time.LocalDateTime; 	// importação do API de data e hora que usarei futuramente
 
 public class Task {
 
@@ -15,6 +14,15 @@ public class Task {
         setTitle(title);
         this.description = description;
         this.status = Status.PENDENTE; // toda tarefa começa pendente
+    }
+    
+    public boolean requiresPassword() {
+    	return false;
+    }
+    
+    
+    public void complete(String senha) {
+    	markAsCompleted();
     }
 
     // Método de comportamento da entidade
@@ -45,6 +53,10 @@ public class Task {
         return status == Status.CONCLUIDA;
     }
 
+    public boolean podeSerRemovida() {
+    	return true;
+    }
+    
     public int getId() { return this.id; }
     public String getTitle() { return this.title; }
     public String getDescription() { return this.description; }
